@@ -1,5 +1,3 @@
-const {config} = require('dotenv');
-const {Client} = require("@notionhq/client");
 const dayjs = require('dayjs');
 const got = require('got');
 const jsdom = require("jsdom");
@@ -7,8 +5,7 @@ const {JSDOM} = jsdom;
 const Parser = require('rss-parser');
 const parser = new Parser();
 const {DB_PROPERTIES, PropertyType, sleep} = require('./util');
-
-config();
+const config = require('./utils/config');
 
 const RATING_TEXT = {
   '很差': 1,
@@ -33,21 +30,19 @@ const EMOJI = {
   drama: '💃🏻',
 };
 
-const DOUBAN_USER_ID = process.env.DOUBAN_USER_ID;
-const notion = new Client({
-  auth: process.env.NOTION_TOKEN,
-});
-const movieDBID = process.env.NOTION_MOVIE_DATABASE_ID;
-const musicDBID = process.env.NOTION_MUSIC_DATABASE_ID;
-const bookDBID = process.env.NOTION_BOOK_DATABASE_ID;
-const gameDBID = process.env.NOTION_GAME_DATABASE_ID;
-const dramaDBID = process.env.NOTION_DRAMA_DATABASE_ID;
+const doubanUserID = config.DOUBAN_USER_ID;
+const notion = config.NOTION;
+const movieDBID = config.MOVIE_DB_ID;
+const musicDBID = config.MUSIC_DB_ID;
+const bookDBID = config.BOOK_DB_ID;
+const gameDBID = config.GAME_DB_ID;
+const dramaDBID = config.DRAMA_DB_ID;
 
 (async () => {
   console.log('Refreshing feeds from RSS...');
   let feed;
   try {
-    feed = await parser.parseURL(`https://www.douban.com/feed/people/${DOUBAN_USER_ID}/interests`);
+    feed = await parser.parseURL(`https://www.douban.com/feed/people/${doubanUserID}/interests`);
   } catch (error) {
     console.error('Failed to parse RSS url: ', error);
     process.exit(1);
