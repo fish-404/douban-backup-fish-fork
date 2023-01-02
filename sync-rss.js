@@ -7,14 +7,8 @@ const parser = new Parser();
 const {DB_PROPERTIES, PropertyType, sleep} = require('./util');
 const config = require('./utils/config');
 const {Category} = require('./models/category');
+const itemData_helper = require('./utils/itemData_helper');
 
-const RATING_TEXT = {
-  '很差': 1,
-  '较差': 2,
-  '还行': 3,
-  '推荐': 4,
-  '力荐': 5,
-};
 const done = /^(看过|听过|读过|玩过)/;
 const CATEGORY = {
   movie: 'movie',
@@ -51,11 +45,6 @@ const notion = config.NOTION;
     const {category, id} = getCategoryAndId(item.title, item.link);
     const dom = new JSDOM(item.content.trim());
     const contents = [...dom.window.document.querySelectorAll('td p')];
-    let rating = contents.filter(el => el.textContent.startsWith('推荐'));
-    if (rating.length) {
-      rating = rating[0].textContent.replace(/^推荐: /, '').trim();
-      rating = RATING_TEXT[rating];
-    }
     let comment = contents.filter(el => el.textContent.startsWith('备注'));
     if (comment.length) {
       comment = comment[0].textContent.replace(/^备注: /, '').trim();
@@ -63,7 +52,7 @@ const notion = config.NOTION;
     const result = {
       id,
       link: item.link,
-      rating: typeof rating === 'number' ? rating : null,
+      rating: itemData_helper.getRating(contents),
       comment: typeof comment === 'string' ? comment : null, // 备注：XXX -> 短评
       time: item.isoDate, // '2021-05-30T06:49:34.000Z'
     };
