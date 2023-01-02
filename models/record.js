@@ -7,7 +7,7 @@ class Record
         this._link = itemSource.link;
         this._pubTime = itemSource.isoDate; // '2021-05-30T06:49:34.000Z'
         this._id = recordData_helper.getId(itemSource.link);
-        this._category = recordData_helper.getCategoryAndId(itemSource.title, itemSource.link).category;
+        this._category = recordData_helper.getCategory(itemSource.link);
         this._setInfo(itemSource.content);
     }
 
