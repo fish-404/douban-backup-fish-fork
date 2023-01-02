@@ -5,7 +5,7 @@ const parser = new Parser();
 const {DB_PROPERTIES, PropertyType, sleep} = require('./util');
 const config = require('./utils/config');
 const {Category} = require('./models/category');
-const {Item} = require('./models/item');
+const {Item} = require('./models/record');
 const {JSDOM} = require('jsdom');
 
 const done = /^(看过|听过|读过|玩过)/;
