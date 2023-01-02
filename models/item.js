@@ -8,7 +8,7 @@ const notionDbMap = new Map([
     , ['game', config.GAME_DB_ID]
 ]);
 
-class Category 
+class Item 
 {
     constructor(category) {
         this._category = category;
@@ -21,5 +21,5 @@ class Category
 }
 
 module.exports = {
-    Category
+    Item
 }

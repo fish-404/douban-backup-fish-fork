@@ -4,7 +4,7 @@ const Parser = require('rss-parser');
 const parser = new Parser();
 const {DB_PROPERTIES, PropertyType, sleep} = require('./util');
 const config = require('./utils/config');
-const {Category} = require('./models/category');
+const {Item} = require('./models/item');
 const {Record} = require('./models/record');
 const {JSDOM} = require('jsdom');
 
@@ -74,7 +74,7 @@ async function handleFeed(feed, category) {
     console.log(`No new ${category} feeds.`);
     return;
   }
-  const dbID = new Category(category).getNotionDbId(); 
+  const dbID = new Item(category).getNotionDbId(); 
   if (!dbID) {
     console.log(`No notion database id for ${category}`);
     return;
@@ -314,7 +314,7 @@ async function addToNotion(itemData, category) {
       }
     });
 
-    const dbid = new Category(category).getNotionDbId();
+    const dbid = new Item(category).getNotionDbId();
     if (!dbid) {
       throw new Error('No databse id found for category: ' + category);
     }
