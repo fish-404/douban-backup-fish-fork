@@ -42,7 +42,7 @@ const notion = config.NOTION;
 
   feed = feed.items.filter(item => done.test(item.title)); // care for done status items only for now
   feed.forEach(item => {
-    const {category, id} = getCategoryAndId(item.title, item.link);
+    const {category, id} = itemData_helper.getCategoryAndId(item.title, item.link);
     const dom = new JSDOM(item.content.trim());
     const contents = [...dom.window.document.querySelectorAll('td p')];
     const result = {
@@ -141,43 +141,6 @@ async function handleFeed(feed, category) {
   }
   console.log(`${category} feeds done.`);
   console.log('====================');
-}
-
-function getCategoryAndId(title, link) {
-  let m = title.match(done);
-  m = m[1];
-  let res, id;
-  switch (m) {
-    case '看过':
-      if (link.startsWith('http://movie.douban.com/')) {
-        res = CATEGORY.movie; // "看过" maybe 舞台剧
-        id = link.match(/movie\.douban\.com\/subject\/(\d+)\/?/);
-        id = id[1]; // string
-      } else {
-        res = CATEGORY.drama; // 舞台剧
-        id = link.match(/www\.douban\.com\/location\/drama\/(\d+)\/?/);
-        id = id[1]; // string
-      }
-      break;
-    case '读过':
-      res = CATEGORY.book;
-      id = link.match(/book\.douban\.com\/subject\/(\d+)\/?/);
-      id = id[1]; // string
-      break;
-    case '听过':
-      res = CATEGORY.music;
-      id = link.match(/music\.douban\.com\/subject\/(\d+)\/?/);
-      id = id[1]; // string
-      break;
-    case '玩过':
-      res = CATEGORY.game;
-      id = link.match(/www\.douban\.com\/game\/(\d+)\/?/);
-      id = id[1]; // string
-      break;
-    default:
-      break;
-  }
-  return {category: res, id};
 }
 
 async function fetchItem(link, category) {

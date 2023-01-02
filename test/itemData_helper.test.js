@@ -16,12 +16,21 @@ const content = '\n' +
 
 const dom = new JSDOM(content.trim());
 const contents = [...dom.window.document.querySelectorAll('td p')];
+const link = "https://movie.douban.com/subject/26884826/";
+const title = "看过日常对话";
 
 describe("itemData_helper test", () => {
     describe("get rating", () => {
         const rating = itemData_helper.getRating(contents);
         it('should be 5', function() {
             assert.equal(5, rating);
+        })
+    })
+
+    describe("get Id", () => {
+        const id = itemData_helper.getId(link);
+        it('id test', function() {
+            assert.equal("26884826", id);
         })
     })
 })
