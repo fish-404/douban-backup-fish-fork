@@ -5,7 +5,7 @@ const parser = new Parser();
 const {DB_PROPERTIES, PropertyType, sleep} = require('./util');
 const config = require('./utils/config');
 const {Category} = require('./models/category');
-const {Item} = require('./models/item');
+const {Record} = require('./models/record');
 const {JSDOM} = require('jsdom');
 
 const done = /^(看过|听过|读过|玩过)/;
@@ -41,12 +41,12 @@ const notion = config.NOTION;
 
   feed = feed.items.filter(item => done.test(item.title)); // care for done status items only for now
   feed.forEach(item => {
-    const itemData = new Item(item);
-    const category = itemData.getCategory();
+    const record = new Record(item);
+    const category = record.getCategory();
     if (!feedData[category]) {
       feedData[category] = [];
     }
-    feedData[category].push(itemData.getResult());
+    feedData[category].push(record.getResult());
   });
 
   if (feed.length === 0) {

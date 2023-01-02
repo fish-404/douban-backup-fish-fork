@@ -1,7 +1,7 @@
-const itemData_helper = require('../utils/itemData_helper')
+const itemData_helper = require('../utils/recordData_helper')
 const {JSDOM} = require('jsdom');
 
-class Item 
+class Record 
 {
     constructor(itemSource) {
         this._link = itemSource.link;
@@ -34,5 +34,5 @@ class Item
 }
 
 module.exports = {
-    Item
+    Record
 }
