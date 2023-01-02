@@ -6,6 +6,7 @@ const Parser = require('rss-parser');
 const parser = new Parser();
 const {DB_PROPERTIES, PropertyType, sleep} = require('./util');
 const config = require('./utils/config');
+const {Category} = require('./models/category');
 
 const RATING_TEXT = {
   '很差': 1,
@@ -32,11 +33,6 @@ const EMOJI = {
 
 const doubanUserID = config.DOUBAN_USER_ID;
 const notion = config.NOTION;
-const movieDBID = config.MOVIE_DB_ID;
-const musicDBID = config.MUSIC_DB_ID;
-const bookDBID = config.BOOK_DB_ID;
-const gameDBID = config.GAME_DB_ID;
-const dramaDBID = config.DRAMA_DB_ID;
 
 (async () => {
   console.log('Refreshing feeds from RSS...');
@@ -102,7 +98,7 @@ async function handleFeed(feed, category) {
     console.log(`No new ${category} feeds.`);
     return;
   }
-  const dbID = getDBID(category);
+  const dbID = new Category(category).getNotionDbId(); 
   if (!dbID) {
     console.log(`No notion database id for ${category}`);
     return;
@@ -197,30 +193,6 @@ function getCategoryAndId(title, link) {
       break;
   }
   return {category: res, id};
-}
-
-function getDBID(category) {
-  let id;
-  switch (category) {
-    case CATEGORY.movie:
-      id = movieDBID;
-      break;
-    case CATEGORY.music:
-      id = musicDBID;
-      break;
-    case CATEGORY.book:
-      id = bookDBID;
-      break;
-    case CATEGORY.game:
-      id = gameDBID;
-      break;
-    case CATEGORY.drama:
-      id = dramaDBID;
-      break;
-    default:
-      break;
-  }
-  return id;
 }
 
 async function fetchItem(link, category) {
@@ -403,7 +375,7 @@ async function addToNotion(itemData, category) {
       }
     });
 
-    const dbid = getDBID(category);
+    const dbid = new Category(category).getNotionDbId();
     if (!dbid) {
       throw new Error('No databse id found for category: ' + category);
     }
