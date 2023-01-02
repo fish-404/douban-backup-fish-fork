@@ -45,15 +45,11 @@ const notion = config.NOTION;
     const {category, id} = getCategoryAndId(item.title, item.link);
     const dom = new JSDOM(item.content.trim());
     const contents = [...dom.window.document.querySelectorAll('td p')];
-    let comment = contents.filter(el => el.textContent.startsWith('备注'));
-    if (comment.length) {
-      comment = comment[0].textContent.replace(/^备注: /, '').trim();
-    }
     const result = {
       id,
       link: item.link,
       rating: itemData_helper.getRating(contents),
-      comment: typeof comment === 'string' ? comment : null, // 备注：XXX -> 短评
+      comment: itemData_helper.getComment(contents),
       time: item.isoDate, // '2021-05-30T06:49:34.000Z'
     };
     if (!feedData[category]) {

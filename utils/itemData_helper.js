@@ -15,6 +15,17 @@ function getRating(contents) {
     return typeof rating === 'number' ? rating : null;
 }
 
+function getComment(contents) {
+    let comment = contents.filter(el => el.textContent.startsWith('备注'));
+    if (comment.length) {
+      comment = comment[0].textContent.replace(/^备注: /, '').trim();
+    }
+
+    // 备注：XXX -> 短评
+    return typeof comment === 'string' ? comment : null;
+}
+
 module.exports = {
     getRating
+    , getComment
 }
