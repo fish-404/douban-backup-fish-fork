@@ -1,13 +1,12 @@
 const dayjs = require('dayjs');
 const got = require('got');
-const jsdom = require("jsdom");
-const {JSDOM} = jsdom;
 const Parser = require('rss-parser');
 const parser = new Parser();
 const {DB_PROPERTIES, PropertyType, sleep} = require('./util');
 const config = require('./utils/config');
 const {Category} = require('./models/category');
-const itemData_helper = require('./utils/itemData_helper');
+const {Item} = require('./models/item');
+const {JSDOM} = require('jsdom');
 
 const done = /^(看过|听过|读过|玩过)/;
 const CATEGORY = {
@@ -42,20 +41,12 @@ const notion = config.NOTION;
 
   feed = feed.items.filter(item => done.test(item.title)); // care for done status items only for now
   feed.forEach(item => {
-    const {category, id} = itemData_helper.getCategoryAndId(item.title, item.link);
-    const dom = new JSDOM(item.content.trim());
-    const contents = [...dom.window.document.querySelectorAll('td p')];
-    const result = {
-      id,
-      link: item.link,
-      rating: itemData_helper.getRating(contents),
-      comment: itemData_helper.getComment(contents),
-      time: item.isoDate, // '2021-05-30T06:49:34.000Z'
-    };
+    const itemData = new Item(item);
+    const category = itemData.getCategory();
     if (!feedData[category]) {
       feedData[category] = [];
     }
-    feedData[category].push(result);
+    feedData[category].push(itemData.getResult());
   });
 
   if (feed.length === 0) {
