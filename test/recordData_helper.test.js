@@ -1,7 +1,7 @@
 const assert = require('assert');
 const jsdom = require('jsdom');
 const {JSDOM} = jsdom;
-const itemData_helper = require('../utils/recordData_helper');
+const recordData_helper = require('../utils/recordData_helper');
 
 const content = '\n' +
         '\n' +
@@ -19,18 +19,25 @@ const contents = [...dom.window.document.querySelectorAll('td p')];
 const link = "https://movie.douban.com/subject/26884826/";
 const title = "看过日常对话";
 
-describe("itemData_helper test", () => {
+describe("recordData_helper test", () => {
     describe("get rating", () => {
-        const rating = itemData_helper.getRating(contents);
+        const rating = recordData_helper.getRating(contents);
         it('should be 5', function() {
             assert.equal(5, rating);
         })
     })
 
     describe("get Id", () => {
-        const id = itemData_helper.getId(link);
-        it('id test', function() {
+        const id = recordData_helper.getId(link);
+        it('should be 26884826', function() {
             assert.equal("26884826", id);
+        })
+    })
+
+    describe("get category", () => {
+        const category = recordData_helper.getCategory(link);
+        it ("should be movie", function() {
+            assert.equal("movie", category);
         })
     })
 })
