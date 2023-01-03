@@ -15,6 +15,10 @@ class Item
         this._notionDbId = notionDbMap.get(this._category);
     }
 
+    setLink(link) {
+        this._link = link;
+    }
+
     getNotionDbId() {
         return this._notionDbId;
     }
