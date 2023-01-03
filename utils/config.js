@@ -1,7 +1,7 @@
 require('dotenv').config();
 const {Client} = require('@notionhq/client');
 const fs = require("fs");
-const path = "./test.rss";
+const path = "./example.rss";
 
 const NOTION = new Client({
   auth: process.env.NOTION_TOKEN,
