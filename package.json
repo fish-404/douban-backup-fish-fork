@@ -4,7 +4,8 @@
   "description": "script to handle douban backup",
   "main": "index.js",
   "scripts": {
-    "dev": "node sync-rss.js",
+    "start": "node sync-rss.js",
+    "dev": "cross-env NODE_ENV=test node sync-rss.js",
     "test": "mocha"
   },
   "keywords": [
