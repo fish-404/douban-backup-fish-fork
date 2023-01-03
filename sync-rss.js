@@ -8,6 +8,7 @@ const {Item} = require('./models/item');
 const {Record} = require('./models/record');
 const {JSDOM} = require('jsdom');
 
+
 const done = /^(看过|听过|读过|玩过)/;
 const CATEGORY = {
   movie: 'movie',
@@ -24,14 +25,18 @@ const EMOJI = {
   drama: '💃🏻',
 };
 
-const doubanUserID = config.DOUBAN_USER_ID;
 const notion = config.NOTION;
 
 (async () => {
   console.log('Refreshing feeds from RSS...');
-  let feed;
+
   try {
-    feed = await parser.parseURL(`https://www.douban.com/feed/people/${doubanUserID}/interests`);
+    if (process.env.NODE_ENV === 'test') {
+      feed = await parser.parseString(config.localRssStr);
+    }
+    else {
+      feed = await parser.parseURL(config.doubanUserUrl);
+    }
   } catch (error) {
     console.error('Failed to parse RSS url: ', error);
     process.exit(1);
