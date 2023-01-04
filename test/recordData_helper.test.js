@@ -16,8 +16,6 @@ const content = '\n' +
 
 const dom = new JSDOM(content.trim());
 const contents = [...dom.window.document.querySelectorAll('td p')];
-const link = "https://movie.douban.com/subject/26884826/";
-const title = "看过日常对话";
 
 describe("recordData_helper test", () => {
     describe("get rating", () => {
@@ -27,18 +25,6 @@ describe("recordData_helper test", () => {
         })
     })
 
-    describe("get Id", () => {
-        const id = recordData_helper.getId(link);
-        it('should be 26884826', function() {
-            assert.equal("26884826", id);
-        })
-    })
 
-    describe("get category", () => {
-        const category = recordData_helper.getCategory(link);
-        it ("should be movie", function() {
-            assert.equal("movie", category);
-        })
-    })
 })
 

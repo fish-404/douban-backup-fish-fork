@@ -6,14 +6,6 @@ const RATING_TEXT = {
   '力荐': 5,
 };
 
-function getCategory(link) {
-  return link.match(/movie|drama|book|game|music/g)[0];
-}
-
-function getId(link) {
-    return link.match(/\d+/)[0];
-}
-
 function getRating(contents) {
     let rating = contents.filter(el => el.textContent.startsWith('推荐'));
     if (rating.length) {
@@ -36,6 +28,4 @@ function getComment(contents) {
 module.exports = {
     getRating
     , getComment
-    , getId
-    , getCategory
 }
