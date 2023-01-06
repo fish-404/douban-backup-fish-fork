@@ -7,7 +7,7 @@ const config = require('./utils/config');
 const {Item} = require('./models/item');
 const {Record} = require('./models/record');
 const {JSDOM} = require('jsdom');
-
+const notionDb_helper = require('./utils/notionDb_helper');
 
 const done = /^(看过|听过|读过|玩过)/;
 const CATEGORY = {
@@ -323,8 +323,9 @@ async function addToNotion(itemData, category) {
     if (!dbid) {
       throw new Error('No databse id found for category: ' + category);
     }
-    const db = await notion.databases.retrieve({database_id: dbid});
-    const columns = Object.keys(db.properties);
+
+    const columns = await notionDb_helper.getNotionDbProperties(dbid);
+
     // remove cols which are not in the current database
     const propKeys = Object.keys(properties);
     propKeys.map(prop => {
