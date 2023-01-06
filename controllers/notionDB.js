@@ -25,7 +25,6 @@ async function createNotionPage(postData) {
 }
 
 module.exports = {
-  queryNotionById
-  , retrieveNotionDB
+  retrieveNotionDB
   , createNotionPage
 }
