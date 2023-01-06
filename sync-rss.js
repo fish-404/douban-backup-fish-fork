@@ -90,19 +90,7 @@ async function handleFeed(feed, category) {
   // query current db to check whether already inserted
   let filtered;
   try {
-    filtered = await notion.databases.query({
-      database_id: dbID,
-      filter: {
-        or: feed.map(item => ({
-          property: DB_PROPERTIES.ITEM_LINK,
-          url: {
-            contains: item.id,
-            // use id to check whether an item is already inserted, better than url
-            // as url may be http/https, ending with or withour /
-          },
-        })),
-      },
-    });
+    filtered = await notionDb_helper.queryNotionDbByFeedData(dbID, feed);
   } catch (error) {
     console.error(`Failed to query ${category} database to check already inserted items. `, error);
     process.exit(1);
