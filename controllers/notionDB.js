@@ -4,31 +4,6 @@ const notion = config.NOTION;
 
 /**
  * 
- * @async
- * @param {uuid} databaseId 
- * @param {string} itemId 
- * @returns 
- */
-async function queryNotionById(databaseId, itemId) {
-  const response = await notion.databases.query({
-    database_id: databaseId,
-    filter: {
-      or: [ 
-        {
-          property: DB_PROPERTIES.ITEM_LINK,
-          url: {
-            contains: itemId,
-          },
-        },
-      ]
-    },
-  });
-
-  return response.results;
-};
-
-/**
- * 
  * @async 
  * @param {uuid} databaseId 
  * @returns 
