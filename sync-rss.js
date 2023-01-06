@@ -26,8 +26,6 @@ const EMOJI = {
   drama: '💃🏻',
 };
 
-const notion = config.NOTION;
-
 (async () => {
   console.log('Refreshing feeds from RSS...');
 
