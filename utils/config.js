@@ -1,7 +1,6 @@
 require('dotenv').config();
 const {Client} = require('@notionhq/client');
-const fs = require("fs");
-const path = "./example.rss";
+const exampleRssFilePath = "./example.rss";
 
 const NOTION = new Client({
   auth: process.env.NOTION_TOKEN,
@@ -13,7 +12,6 @@ const GAME_DB_ID = process.env.NOTION_GAME_DATABASE_ID;
 const DRAMA_DB_ID = process.env.NOTION_DRAMA_DATABASE_ID;
 
 const doubanUserUrl = `https://www.douban.com/feed/people/${process.env.DOUBAN_USER_ID}/interests`;
-const localRssStr = fs.readFileSync((path).toString());
 
 module.exports = {
     NOTION
@@ -23,5 +21,5 @@ module.exports = {
     , GAME_DB_ID
     , DRAMA_DB_ID
     , doubanUserUrl
-    , localRssStr
+    , exampleRssFilePath
 }

@@ -1,14 +1,12 @@
 const dayjs = require('dayjs');
 const got = require('got');
-const Parser = require('rss-parser');
-const parser = new Parser();
 const {DB_PROPERTIES, PropertyType, sleep} = require('./util');
-const config = require('./utils/config');
 const {Item} = require('./models/item');
 const {Record} = require('./models/record');
 const {JSDOM} = require('jsdom');
 const notionDb_helper = require('./utils/notionDb_helper');
 const notionDB_Controller = require('./controllers/notionDB');
+const parser_helper = require('./utils/parser_helper')
 
 const done = /^(看过|听过|读过|玩过)/;
 const CATEGORY = {
@@ -28,14 +26,10 @@ const EMOJI = {
 
 (async () => {
   console.log('Refreshing feeds from RSS...');
+  let feed;
 
   try {
-    if (process.env.NODE_ENV === 'test') {
-      feed = await parser.parseString(config.localRssStr);
-    }
-    else {
-      feed = await parser.parseURL(config.doubanUserUrl);
-    }
+    feed = await parser_helper.getRssData();
   } catch (error) {
     console.error('Failed to parse RSS url: ', error);
     process.exit(1);
