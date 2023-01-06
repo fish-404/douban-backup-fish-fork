@@ -20,6 +20,12 @@ async function queryNotionById(databaseId, itemId) {
   return response.results;
 };
 
+async function retrieveNotionDB(databaseId) {
+  const response = await notion.databases.retrieve({ database_id: databaseId });
+  return response;
+};
+
 module.exports = {
   queryNotionById
+  , retrieveNotionDB
 }
