@@ -8,6 +8,7 @@ const {Item} = require('./models/item');
 const {Record} = require('./models/record');
 const {JSDOM} = require('jsdom');
 const notionDb_helper = require('./utils/notionDb_helper');
+const notionDB_Controller = require('./controllers/notionDB');
 
 const done = /^(看过|听过|读过|玩过)/;
 const CATEGORY = {
@@ -354,7 +355,9 @@ async function addToNotion(itemData, category) {
         },
       }
     }
-    const response = await notion.pages.create(postData);
+
+    const response = await notionDB_Controller.createNotionPage(postData);
+    
     if (response && response.id) {
       console.log(itemData[DB_PROPERTIES.TITLE] + `[${itemData[DB_PROPERTIES.ITEM_LINK]}]` + ' page created.');
     }

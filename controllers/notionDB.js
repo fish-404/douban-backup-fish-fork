@@ -38,7 +38,19 @@ async function retrieveNotionDB(databaseId) {
   return response;
 };
 
+/**
+ *
+ * @async 
+ * @param {*} postData 
+ * @returns 
+ */
+async function createNotionPage(postData) {
+  const response = await notion.pages.create(postData);
+  return response;
+}
+
 module.exports = {
   queryNotionById
   , retrieveNotionDB
+  , createNotionPage
 }
