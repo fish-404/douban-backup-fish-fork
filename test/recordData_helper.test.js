@@ -32,5 +32,13 @@ describe("recordData_helper test", () => {
             assert.equal(link, poster);
         })
     })
+
+    describe("get title", () => {
+        const title = recordData_helper.getTitle(dom);
+        const actual = "日常對話";
+        it(`should be ${actual}`, () => {
+            assert.equal(actual, title);
+        })
+    })
 })
 
