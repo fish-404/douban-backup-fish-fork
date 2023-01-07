@@ -31,6 +31,7 @@ class Record
             , rating: this._rating
             , comment: this._comment
             , time: this._pubTime
+            , poster: this._poster
         }
     }
 }
