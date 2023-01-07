@@ -29,6 +29,10 @@ function getPoster(dom) {
   return dom.window.document.querySelector('img').src.replace(/\.webp$/, '.jpg');
 }
 
+function getTitle(dom) {
+  return dom.window.document.querySelector('td a').title;
+}
+
 module.exports = {
     getRating
     , getComment
