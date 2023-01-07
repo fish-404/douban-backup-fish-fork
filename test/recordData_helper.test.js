@@ -16,7 +16,7 @@ const content = '\n' +
 
 const dom = new JSDOM(content.trim());
 const contents = [...dom.window.document.querySelectorAll('td p')];
-const link = "https://img9.doubanio.com/view/photo/s_ratio_poster/public/p2499696096.webp";
+const link = "https://img9.doubanio.com/view/photo/s_ratio_poster/public/p2499696096.jpg";
 
 describe("recordData_helper test", () => {
     describe("get rating", () => {
