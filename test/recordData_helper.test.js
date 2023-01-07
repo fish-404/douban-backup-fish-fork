@@ -16,6 +16,7 @@ const content = '\n' +
 
 const dom = new JSDOM(content.trim());
 const contents = [...dom.window.document.querySelectorAll('td p')];
+const link = "https://img9.doubanio.com/view/photo/s_ratio_poster/public/p2499696096.webp";
 
 describe("recordData_helper test", () => {
     describe("get rating", () => {
@@ -25,6 +26,11 @@ describe("recordData_helper test", () => {
         })
     })
 
-
+    describe("get poster", () => {
+        const poster = recordData_helper.getPoster(dom);
+        it('should equal', function() {
+            assert.equal(link, poster);
+        })
+    })
 })
 
