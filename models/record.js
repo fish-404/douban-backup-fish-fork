@@ -17,6 +17,7 @@ class Record
         const contents = [...dom.window.document.querySelectorAll('td p')];
         this._rating = recordData_helper.getRating(contents);
         this._comment = recordData_helper.getComment(contents);
+        this._poster = recordData_helper.getPoster(dom);
     }
 
     getCategory() {

@@ -26,7 +26,7 @@ function getComment(contents) {
 }
 
 function getPoster(dom) {
-  return dom.window.document.querySelector('img').src;
+  return dom.window.document.querySelector('img').src.replace(/\.webp$/, '.jpg');
 }
 
 module.exports = {
