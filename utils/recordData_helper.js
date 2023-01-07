@@ -25,7 +25,12 @@ function getComment(contents) {
     return typeof comment === 'string' ? comment : null;
 }
 
+function getPoster(dom) {
+  return dom.window.document.querySelector('img').src;
+}
+
 module.exports = {
     getRating
     , getComment
+    , getPoster
 }
