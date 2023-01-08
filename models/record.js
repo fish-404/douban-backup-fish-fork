@@ -10,6 +10,9 @@ class Record
         this._id = itemData_helper.getIdByLink(itemSource.link);
         this._category = itemData_helper.getCategoryByLink(itemSource.link);
         this._setInfo(itemSource.content);
+        if (this._category === 'movie') {
+            this._title = itemSource.title.slice(2) + ' ' + this._title;
+        }
     }
 
     _setInfo(content) {
@@ -18,6 +21,7 @@ class Record
         this._rating = recordData_helper.getRating(contents);
         this._comment = recordData_helper.getComment(contents);
         this._poster = recordData_helper.getPoster(dom);
+        this._title = recordData_helper.getTitle(dom);
     }
 
     getCategory() {
@@ -32,6 +36,7 @@ class Record
             , comment: this._comment
             , time: this._pubTime
             , poster: this._poster
+            , title: this._title
         }
     }
 }

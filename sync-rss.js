@@ -108,6 +108,7 @@ async function handleFeed(feed, category) {
       itemData[DB_PROPERTIES.RATING_DATE] = dayjs(item.time).format('YYYY-MM-DD');
       itemData[DB_PROPERTIES.COMMENTS] = item.comment;
       itemData[DB_PROPERTIES.POSTER] = item.poster;
+      itemData[DB_PROPERTIES.TITLE] = item.title;
     } catch (error) {
       console.error(link, error);
     }
@@ -129,7 +130,6 @@ async function fetchItem(link, category) {
 
   // movie item page
   if (category === CATEGORY.movie) {
-    itemData[DB_PROPERTIES.TITLE] = dom.window.document.querySelector('#content h1 [property="v:itemreviewed"]').textContent.trim();
     itemData[DB_PROPERTIES.YEAR] = dom.window.document.querySelector('#content h1 .year').textContent.slice(1, -1);
     itemData[DB_PROPERTIES.DIRECTORS] = dom.window.document.querySelector('#info .attrs').textContent;
     itemData[DB_PROPERTIES.ACTORS] = [...dom.window.document.querySelectorAll('#info .actor .attrs a')].slice(0, 5).map(i => i.textContent).join(' / ');
@@ -141,7 +141,6 @@ async function fetchItem(link, category) {
 
   // music item page
   } else if (category === CATEGORY.music) {
-    itemData[DB_PROPERTIES.TITLE] = dom.window.document.querySelector('#wrapper h1 span').textContent.trim();
     let info = [...dom.window.document.querySelectorAll('#info span.pl')];
     let release = info.filter(i => i.textContent.trim().startsWith('发行时间'));
     if (release.length) {
@@ -156,7 +155,6 @@ async function fetchItem(link, category) {
 
   // book item page
   } else if (category === CATEGORY.book) {
-    itemData[DB_PROPERTIES.TITLE] = dom.window.document.querySelector('#wrapper h1 [property="v:itemreviewed"]').textContent.trim();
     let info = [...dom.window.document.querySelectorAll('#info span.pl')];
     info.forEach(i => {
       let text = i.textContent.trim();
@@ -184,7 +182,6 @@ async function fetchItem(link, category) {
 
   // game item page
   } else if (category === CATEGORY.game) {
-    itemData[DB_PROPERTIES.TITLE] = dom.window.document.querySelector('#wrapper #content h1').textContent.trim();
     const gameInfo = dom.window.document.querySelector('#content .game-attr');
     const dts = [...gameInfo.querySelectorAll('dt')].filter(i => i.textContent.startsWith('类型') || i.textContent.startsWith('发行日期'));
     if (dts.length) {
@@ -200,7 +197,6 @@ async function fetchItem(link, category) {
 
   // drama item page
   } else if (category === CATEGORY.drama) {
-    itemData[DB_PROPERTIES.TITLE] = dom.window.document.querySelector('#content .drama-info .meta h1').textContent.trim();
     let genre = dom.window.document.querySelector('#content .drama-info .meta [itemprop="genre"]').textContent.trim();
     itemData[DB_PROPERTIES.GENRE] = [genre];
   }
