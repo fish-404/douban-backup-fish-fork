@@ -29,6 +29,15 @@ function getPoster(dom) {
   return dom.window.document.querySelector('img').src.replace(/\.webp$/, '.jpg');
 }
 
+/**
+ * Rss data title
+ * @param {*} dom 
+ * @returns 
+ * @todo
+ * 对于影视作品，此处的 title 是原名
+ * douban 影视作品页面的 title 是简体中文名+原名
+ * 对于 db 似乎分开比较好
+ */
 function getTitle(dom) {
   return dom.window.document.querySelector('td a').title;
 }
