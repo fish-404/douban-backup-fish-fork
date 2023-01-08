@@ -33,10 +33,13 @@ function getPoster(dom) {
  * Rss data title
  * @param {*} dom 
  * @returns 
- * @todo
- * 对于影视作品，此处的 title 是原名
- * douban 影视作品页面的 title 是简体中文名+原名
- * 对于 db 似乎分开比较好
+ * @todo 
+ * type   | douban 页面      | Rss Title    | Rss des title 
+ * 影视   | 简体中文名 + 原名 | 简体中文名    | 原名
+ * 书籍   | 书名             | 书名          | 书名
+ * 游戏   | 中文名 + 原名     | 中文名 + 原名 | 中文名 + 原名
+ * 音乐   | 唱片名            | 唱片名       | 唱片名
+ * 舞台剧 | 剧目名称          | 剧目名称      | 剧目名称
  */
 function getTitle(dom) {
   return dom.window.document.querySelector('td a').title;
