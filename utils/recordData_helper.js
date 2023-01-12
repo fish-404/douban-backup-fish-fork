@@ -9,7 +9,7 @@ const RATING_TEXT = {
 function getRating(contents) {
     let rating = contents.filter(el => el.textContent.startsWith('推荐'));
     if (rating.length) {
-      rating = rating[0].textContent.replace(/^推荐: /, '').trim();
+      rating = rating[0].textContent.slice(3).trim();
       rating = RATING_TEXT[rating];
     }
     return typeof rating === 'number' ? rating : null;
