@@ -1,5 +1,5 @@
 const assert = require('assert');
-const {Movie} = require("../models/item");
+const {Movie} = require("../models/item/movie");
 const link = "https://movie.douban.com/subject/26884826/";
 
 describe("Item model test", () => {
