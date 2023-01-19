@@ -2,7 +2,8 @@ const assert = require('assert');
 const {Movie} = require("../models/item/movie");
 const {Music} = require("../models/item/music");
 const {Book} = require("../models/item/book");
-const { Game } = require('../models/item/game');
+const {Game} = require('../models/item/game');
+const {Drama} = require('../models/item/drama');
 
 describe("Item model test", () => {
     // @todo refactor tests (similar tests)
@@ -59,6 +60,18 @@ describe("Item model test", () => {
             const actual = { '类型': [ '游戏', '文字冒险', '模拟' ], '发行日期': '2017-09-16' };
             const item = new Game();
             const link = "https://www.douban.com/game/27613278/";
+            item.setLink(link);
+            await item.setInfo();
+            const result = await item.getInfo();
+            assert.deepEqual(actual, result);
+        })
+    })
+    
+    describe('drama info test', () => {
+        it ("should be equal", async () => {
+            const actual = { '类型': [ '舞台剧' ] };
+            const item = new Drama();
+            const link = "https://www.douban.com/location/drama/26701244/";
             item.setLink(link);
             await item.setInfo();
             const result = await item.getInfo();
