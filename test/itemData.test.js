@@ -1,6 +1,7 @@
 const assert = require('assert');
 const {Movie} = require("../models/item/movie");
 const {Music} = require("../models/item/music");
+const {Book} = require("../models/item/book")
 
 describe("Item model test", () => {
     describe("movie info test", () => {
@@ -26,10 +27,27 @@ describe("Item model test", () => {
             const item = new Music();
             const link = "https://music.douban.com/subject/1907886/";
             item.setLink(link);
-            item.setLink(link);
             await item.setInfo();
             const result = await item.getInfo();
             const actual = { '发行日期': '2006-06-06', '音乐家': 'Glenn Gould' };
+            assert.deepEqual(actual, result);
+        })
+    })
+
+    describe('book info test', () => {
+        it ("should be equal", async () => {
+            const actual = {
+                '作者': '西蒙.德.波娃(Simone de Beauvoir)',
+                '出版社': '貓頭鷹出版社',
+                '标题': 'undefinedLe Deuxième Sexe',
+                '出版日期': '2013-10-01',
+                ISBN: 9789862621752
+            }
+            const item = new Book();
+            const link = "https://book.douban.com/subject/25712807/";
+            item.setLink(link);
+            await item.setInfo();
+            const result = await item.getInfo();
             assert.deepEqual(actual, result);
         })
     })
