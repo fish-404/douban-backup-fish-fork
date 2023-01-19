@@ -1,7 +1,7 @@
 const dayjs = require('dayjs');
 const got = require('got');
 const {DB_PROPERTIES, PropertyType, sleep} = require('./util');
-const {Item} = require('./models/item');
+const {Item, Movie} = require('./models/item');
 const {Record} = require('./models/record');
 const {JSDOM} = require('jsdom');
 const notionDb_helper = require('./utils/notionDb_helper');
@@ -124,21 +124,16 @@ async function handleFeed(feed, category) {
 
 async function fetchItem(link, category) {
   console.log(`Fetching ${category} item with link: ${link}`);
-  const itemData = {};
+  let itemData = {};
   const response = await got(link);
   const dom = new JSDOM(response.body);
 
   // movie item page
   if (category === CATEGORY.movie) {
-    itemData[DB_PROPERTIES.YEAR] = dom.window.document.querySelector('#content h1 .year').textContent.slice(1, -1);
-    itemData[DB_PROPERTIES.DIRECTORS] = dom.window.document.querySelector('#info .attrs').textContent;
-    itemData[DB_PROPERTIES.ACTORS] = [...dom.window.document.querySelectorAll('#info .actor .attrs a')].slice(0, 5).map(i => i.textContent).join(' / ');
-    itemData[DB_PROPERTIES.GENRE] = [...dom.window.document.querySelectorAll('#info [property="v:genre"]')].map(i => i.textContent); // array
-    const imdbInfo = [...dom.window.document.querySelectorAll('#info span.pl')].filter(i => i.textContent.startsWith('IMDb'));
-    if (imdbInfo.length) {
-      itemData[DB_PROPERTIES.IMDB_LINK] = 'https://www.imdb.com/title/' + imdbInfo[0].nextSibling.textContent.trim();
-    }
-
+    const movieItem = new Movie('movie');
+    movieItem.setLink(link);
+    await movieItem.setInfo();
+    itemData = await movieItem.getInfo();
   // music item page
   } else if (category === CATEGORY.music) {
     let info = [...dom.window.document.querySelectorAll('#info span.pl')];
