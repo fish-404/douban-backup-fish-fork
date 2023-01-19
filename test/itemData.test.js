@@ -16,8 +16,7 @@ describe("Item model test", () => {
                 '类型': [ '纪录片', '同性' ],
                 'IMDb 链接': 'https://www.imdb.com/title/tt6041174'
             }
-            // @todo rewrite comapre
-            assert.equal(result, actual);
+            assert.deepEqual(result, actual);
         })
     })
 })
