@@ -8,6 +8,7 @@ const {JSDOM} = require('jsdom');
 const notionDb_helper = require('./utils/notionDb_helper');
 const notionDB_Controller = require('./controllers/notionDB');
 const parser_helper = require('./utils/parser_helper')
+const itemData_helper = require("./utils/itemData_helper");
 
 const done = /^(看过|听过|读过|玩过)/;
 const CATEGORY = {
@@ -73,7 +74,7 @@ async function handleFeed(feed, category) {
     console.log(`No new ${category} feeds.`);
     return;
   }
-  const dbID = new Item(category).getNotionDbId(); 
+  const dbID = itemData_helper.getNotionDbIdByCategory(category);
   if (!dbID) {
     console.log(`No notion database id for ${category}`);
     return;
@@ -288,7 +289,7 @@ async function addToNotion(itemData, category) {
       }
     });
 
-    const dbid = new Item(category).getNotionDbId();
+    const dbid = itemData_helper.getNotionDbIdByCategory(category);
     if (!dbid) {
       throw new Error('No databse id found for category: ' + category);
     }
