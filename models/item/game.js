@@ -5,8 +5,7 @@ const dayjs = require("dayjs");
 class Game extends Item 
 {
     // @todo: rewrite return type
-    async setInfo() {
-        await this._setItemLinkDom();
+    setInfo() {
         const gameInfo = this._dom.window.document.querySelector('#content .game-attr');
         const dts = [...gameInfo.querySelectorAll('dt')].filter(i => i.textContent.startsWith('类型') || i.textContent.startsWith('发行日期'));
         if (dts.length) {
@@ -21,7 +20,7 @@ class Game extends Item
         }
     }
 
-    async getInfo() {
+    getInfo() {
         return {
             [DB_PROPERTIES.GENRE]: this._genre
             , [DB_PROPERTIES.RELEASE_DATE]: this._releaseDate

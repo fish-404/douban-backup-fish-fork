@@ -5,8 +5,7 @@ const dayjs = require("dayjs");
 class Music extends Item 
 {
     // @todo: rewrite return type
-    async setInfo() {
-        await this._setItemLinkDom();
+    setInfo() {
         let info = [...this._dom.window.document.querySelectorAll('#info span.pl')];
         let release = info.filter(i => i.textContent.trim().startsWith('发行时间'));
         if (release.length) {
@@ -20,7 +19,7 @@ class Music extends Item
         } 
     }
 
-    async getInfo() {
+    getInfo() {
         return {
             [DB_PROPERTIES.RELEASE_DATE]: this._releaseDate
             , [DB_PROPERTIES.MUSICIAN]: this._musician

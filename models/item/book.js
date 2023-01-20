@@ -5,8 +5,7 @@ const dayjs = require("dayjs");
 class Book extends Item 
 {
     // @todo: rewrite return type
-    async setInfo() {
-        await this._setItemLinkDom();
+    setInfo() {
         let info = [...this._dom.window.document.querySelectorAll('#info span.pl')];
         info.forEach(i => {
             let text = i.textContent.trim();
@@ -33,7 +32,7 @@ class Book extends Item
         })
     }
 
-    async getInfo() {
+    getInfo() {
         return {
             [DB_PROPERTIES.WRITER]: this._writer
             , [DB_PROPERTIES.PUBLISHING_HOUSE]: this._publishingHouse

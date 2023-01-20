@@ -8,12 +8,11 @@ const {Drama} = require('../models/item/drama');
 describe("Item model test", () => {
     // @todo refactor tests (similar tests)
     describe("movie info test", () => {
-        it ('should be equal', async () => {
+        it ('should be equal', async() => {
             const link = "https://movie.douban.com/subject/26884826/";
-            const movieItem = new Movie('movie');
-            movieItem.setLink(link);
-            await movieItem.setInfo();
-            const result = await movieItem.getInfo();
+            const item = await new Movie(link);
+            item.setInfo();
+            const result = item.getInfo();
             const actual = {
                 '上映年份': '2016',
                 '导演': '黄惠侦',
@@ -27,11 +26,10 @@ describe("Item model test", () => {
 
     describe("music info test", () => {
         it ("should be equal", async () => {
-            const item = new Music();
             const link = "https://music.douban.com/subject/1907886/";
-            item.setLink(link);
-            await item.setInfo();
-            const result = await item.getInfo();
+            const item = await new Music(link);
+            item.setInfo();
+            const result = item.getInfo();
             const actual = { '发行日期': '2006-06-06', '音乐家': 'Glenn Gould' };
             assert.deepEqual(actual, result);
         })
@@ -46,11 +44,11 @@ describe("Item model test", () => {
                 '出版日期': '2013-10-01',
                 ISBN: 9789862621752
             }
-            const item = new Book();
+
             const link = "https://book.douban.com/subject/25712807/";
-            item.setLink(link);
-            await item.setInfo();
-            const result = await item.getInfo();
+            const item = await new Book(link);
+            item.setInfo();
+            const result = item.getInfo();
             assert.deepEqual(actual, result);
         })
     })
@@ -58,11 +56,10 @@ describe("Item model test", () => {
     describe('game info test', () => {
         it ("should be equal", async () => {
             const actual = { '类型': [ '游戏', '文字冒险', '模拟' ], '发行日期': '2017-09-16' };
-            const item = new Game();
             const link = "https://www.douban.com/game/27613278/";
-            item.setLink(link);
-            await item.setInfo();
-            const result = await item.getInfo();
+            const item = await new Game(link);
+            item.setInfo();
+            const result = item.getInfo();
             assert.deepEqual(actual, result);
         })
     })
@@ -70,13 +67,11 @@ describe("Item model test", () => {
     describe('drama info test', () => {
         it ("should be equal", async () => {
             const actual = { '类型': [ '舞台剧' ] };
-            const item = new Drama();
             const link = "https://www.douban.com/location/drama/26701244/";
-            item.setLink(link);
-            await item.setInfo();
-            const result = await item.getInfo();
+            const item = await new Drama(link);
+            item.setInfo();
+            const result = item.getInfo();
             assert.deepEqual(actual, result);
         })
     })
-
 })

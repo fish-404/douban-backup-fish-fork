@@ -9,6 +9,10 @@ const notionDb_helper = require('./utils/notionDb_helper');
 const notionDB_Controller = require('./controllers/notionDB');
 const parser_helper = require('./utils/parser_helper')
 const itemData_helper = require("./utils/itemData_helper");
+const { Music } = require('./models/item/music');
+const { Book } = require('./models/item/book');
+const { Game } = require('./models/item/game');
+const { Drama } = require('./models/item/drama');
 
 const done = /^(看过|听过|读过|玩过)/;
 const CATEGORY = {
@@ -126,79 +130,27 @@ async function handleFeed(feed, category) {
 
 async function fetchItem(link, category) {
   console.log(`Fetching ${category} item with link: ${link}`);
-  let itemData = {};
-  const response = await got(link);
-  const dom = new JSDOM(response.body);
+  let item;
 
   // movie item page
   if (category === CATEGORY.movie) {
-    const movieItem = new Movie('movie');
-    movieItem.setLink(link);
-    await movieItem.setInfo();
-    itemData = await movieItem.getInfo();
+    item = await new Movie(link);
   // music item page
   } else if (category === CATEGORY.music) {
-    let info = [...dom.window.document.querySelectorAll('#info span.pl')];
-    let release = info.filter(i => i.textContent.trim().startsWith('发行时间'));
-    if (release.length) {
-      let date = release[0].nextSibling.textContent.trim(); // 2021-05-31, or 2021-4-2
-      itemData[DB_PROPERTIES.RELEASE_DATE] = dayjs(date).format('YYYY-MM-DD');
-    }
-    let musician = info.filter(i => i.textContent.trim().startsWith('表演者'));
-    if (musician.length) {
-      itemData[DB_PROPERTIES.MUSICIAN] = musician[0].textContent.replace('表演者:', '').trim().split('\n').map(v => v.trim()).join('');
-      // split and trim to remove extra spaces, rich_text length limited to 2000
-    }
-
+    item = await new Music(link);
   // book item page
   } else if (category === CATEGORY.book) {
-    let info = [...dom.window.document.querySelectorAll('#info span.pl')];
-    info.forEach(i => {
-      let text = i.textContent.trim();
-      let nextText = i.nextSibling?.textContent.trim();
-      if (text.startsWith('作者')) {
-        let parent = i.parentElement;
-        if (parent.id === 'info') { // if only one writer, then parentElement is the #info container
-          itemData[DB_PROPERTIES.WRITER] = i.nextElementSibling.textContent.replace(/\n/g, '').replace(/\s/g, '');
-        } else { // if multiple writers, there will be a separate <span> element
-          itemData[DB_PROPERTIES.WRITER] = i.parentElement.textContent.trim().replace('作者:', '').trim();
-        }
-      } else if (text.startsWith('出版社')) {
-        itemData[DB_PROPERTIES.PUBLISHING_HOUSE] = nextText;
-      } else if (text.startsWith('原作名')) {
-        itemData[DB_PROPERTIES.TITLE] += nextText;
-      } else if (text.startsWith('出版年')) {
-        if (/年|月|日/.test(nextText)) {
-          nextText = nextText.replace(/年|月|日/g, '-').slice(0, -1); // '2000年5月' special case
-        }
-        itemData[DB_PROPERTIES.PUBLICATION_DATE] = dayjs(nextText).format('YYYY-MM-DD'); // this can have only year, month, but need to format to YYYY-MM-DD
-      } else if (text.startsWith('ISBN')) {
-        itemData[DB_PROPERTIES.ISBN] = Number(nextText);
-      }
-    });
-
+    item = await new Book(link);
   // game item page
   } else if (category === CATEGORY.game) {
-    const gameInfo = dom.window.document.querySelector('#content .game-attr');
-    const dts = [...gameInfo.querySelectorAll('dt')].filter(i => i.textContent.startsWith('类型') || i.textContent.startsWith('发行日期'));
-    if (dts.length) {
-      dts.forEach(dt => {
-        if (dt.textContent.startsWith('类型')) {
-          itemData[DB_PROPERTIES.GENRE] = [...dt.nextElementSibling.querySelectorAll('a')].map(a => a.textContent.trim()); //array
-        } else if (dt.textContent.startsWith('发行日期')) {
-          let date = dt.nextElementSibling.textContent.trim();
-          itemData[DB_PROPERTIES.RELEASE_DATE] = dayjs(date).format('YYYY-MM-DD');
-        }
-      })
-    }
-
+    item = await new Game(link);
   // drama item page
   } else if (category === CATEGORY.drama) {
-    let genre = dom.window.document.querySelector('#content .drama-info .meta [itemprop="genre"]').textContent.trim();
-    itemData[DB_PROPERTIES.GENRE] = [genre];
+    item = await new Drama(link);
   }
+  item.setInfo();
 
-  return itemData;
+  return item.getInfo();
 }
 
 function getPropertyValye(value, type, key) {

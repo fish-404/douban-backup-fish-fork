@@ -3,17 +3,14 @@ const {JSDOM} = require("jsdom");
 
 class Item 
 {
-    constructor(category) {
-        this._category = category;
-    }
-
-    setLink(link) {
+    constructor(link) {
         this._link = link;
-    }
+        return (async () => {
+            const response = await got(this._link);
+            this._dom = new JSDOM(response.body);
 
-    async _setItemLinkDom() {
-        const response = await got(this._link);
-        this._dom = new JSDOM(response.body);
+            return this;
+        })();
     }
 }
 

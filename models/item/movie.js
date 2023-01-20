@@ -4,8 +4,7 @@ const {DB_PROPERTIES} = require("../../util");
 class Movie extends Item 
 {
     // @todo: rewrite return type
-    async setInfo() {
-        await this._setItemLinkDom();
+    setInfo() {
         // 对应条目括号内的年份(非上映日期)
         this._year = this._dom.window.document.querySelector('#content h1 .year').textContent.slice(1, -1);
         this._directors = this._dom.window.document.querySelector('#info .attrs').textContent;
@@ -17,7 +16,7 @@ class Movie extends Item
         }
     }
 
-    async getInfo() {
+    getInfo() {
         return {
             [DB_PROPERTIES.YEAR]: this._year
             , [DB_PROPERTIES.DIRECTORS]: this._directors
