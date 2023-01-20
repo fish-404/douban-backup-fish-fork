@@ -1,10 +1,7 @@
 const dayjs = require('dayjs');
-const got = require('got');
 const {DB_PROPERTIES, PropertyType, sleep} = require('./util');
-const {Item} = require('./models/item');
 const {Movie} = require("./models/item/movie");
 const {Record} = require('./models/record');
-const {JSDOM} = require('jsdom');
 const notionDb_helper = require('./utils/notionDb_helper');
 const notionDB_Controller = require('./controllers/notionDB');
 const parser_helper = require('./utils/parser_helper')
