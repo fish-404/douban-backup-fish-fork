@@ -1,24 +1,13 @@
 const dayjs = require('dayjs');
 const {DB_PROPERTIES, PropertyType, sleep} = require('./util');
-const {Movie} = require("./models/item/movie");
 const {Record} = require('./models/record');
 const notionDb_helper = require('./utils/notionDb_helper');
 const notionDB_Controller = require('./controllers/notionDB');
 const parser_helper = require('./utils/parser_helper')
 const itemData_helper = require("./utils/itemData_helper");
-const { Music } = require('./models/item/music');
-const { Book } = require('./models/item/book');
-const { Game } = require('./models/item/game');
-const { Drama } = require('./models/item/drama');
 
 const done = /^(看过|听过|读过|玩过)/;
-const CATEGORY = {
-  movie: 'movie',
-  music: 'music',
-  book: 'book',
-  game: 'game',
-  drama: 'drama',
-};
+
 const EMOJI = {
   movie: '🎞',
   music: '🎶',
@@ -105,7 +94,7 @@ async function handleFeed(feed, category) {
     const link = item.link;
     let itemData;
     try {
-      itemData = await fetchItem(link, category);
+      itemData = await itemData_helper.fetchItem(link, category);
       itemData[DB_PROPERTIES.ITEM_LINK] = link;
       itemData[DB_PROPERTIES.RATING] = item.rating;
       itemData[DB_PROPERTIES.RATING_DATE] = dayjs(item.time).format('YYYY-MM-DD');
@@ -123,31 +112,6 @@ async function handleFeed(feed, category) {
   }
   console.log(`${category} feeds done.`);
   console.log('====================');
-}
-
-async function fetchItem(link, category) {
-  console.log(`Fetching ${category} item with link: ${link}`);
-  let item;
-
-  // movie item page
-  if (category === CATEGORY.movie) {
-    item = await new Movie(link);
-  // music item page
-  } else if (category === CATEGORY.music) {
-    item = await new Music(link);
-  // book item page
-  } else if (category === CATEGORY.book) {
-    item = await new Book(link);
-  // game item page
-  } else if (category === CATEGORY.game) {
-    item = await new Game(link);
-  // drama item page
-  } else if (category === CATEGORY.drama) {
-    item = await new Drama(link);
-  }
-  item.setInfo();
-
-  return item.getInfo();
 }
 
 function getPropertyValye(value, type, key) {
