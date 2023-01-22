@@ -1,12 +1,4 @@
-const config = require("../utils/config");
-const notionDbMap = new Map([
-  ['movie', config.MOVIE_DB_ID]
-  , ['music', config.MUSIC_DB_ID]
-  , ['book', config.BOOK_DB_ID]
-  , ['drama', config.DRAMA_DB_ID]
-  , ['game', config.GAME_DB_ID]
-]);
-
+const {notionDbMap} = require("../utils/config");
 const { Music } = require('../models/item/music');
 const { Book } = require('../models/item/book');
 const { Game } = require('../models/item/game');
