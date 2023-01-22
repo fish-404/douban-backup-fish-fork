@@ -150,12 +150,16 @@
 
 <details>
   <summary>Readme by fish-404</summary>
+  
   # 备忘
+
   * 暂时禁用 auto run action，依然可以手动运行 (`sync-rss.js.yml`)
   * `npm run dev` -  本地调试可使用 `example.rss` 文件进行调试 (或会新增更多的配置项)
   * `npm run start` - 实际获取豆瓣链接，即原脚本功能
   * `npm run test` - 用于测试部分接口功能（只写了简单的几个测试，仍需重新规划）
+
   # 更改中的代码结构说明
+
   将一条标记视为一个 Record，一个条目视为一个 Item，两者本身应该是互相独立的关系，用户标记行为是 Record 行为，status 从想读，在读到读过。一个书影音游剧目是单独的一个对象，对于整个 douban 或者不同用户可能对这个 Item 的信息需求是不同的。用户数据库记录的是用户所需要的 Item 属性信息。相当于用户标记了 Item id，再从 Item Id 获取用户想要记录的 Item 元数据。
 
   Notion 相当于一个存储用户需要的信息数据库，相当于关联了 Item 和 Record 的 View。
