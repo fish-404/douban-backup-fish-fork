@@ -25,36 +25,28 @@ function getIdByLink(link) {
   return link.match(/\d+/)[0];
 }
 
-const CATEGORY = {
-  movie: 'movie',
-  music: 'music',
-  book: 'book',
-  game: 'game',
-  drama: 'drama',
-};
-
 async function fetchItem(link, category) {
   console.log(`Fetching ${category} item with link: ${link}`);
   let item;
 
-  // movie item page
-  if (category === CATEGORY.movie) {
-    item = await new Movie(link);
-  // music item page
-  } else if (category === CATEGORY.music) {
-    item = await new Music(link);
-  // book item page
-  } else if (category === CATEGORY.book) {
-    item = await new Book(link);
-  // game item page
-  } else if (category === CATEGORY.game) {
-    item = await new Game(link);
-  // drama item page
-  } else if (category === CATEGORY.drama) {
-    item = await new Drama(link);
+  switch (category) {
+    case 'movie':
+      item = await new Movie(link);
+      break;
+    case 'music':
+      item = await new Music(link);
+      break;
+    case 'book':
+      item = await new Book(link);
+      break;
+    case 'game':
+      item = await new Game(link);
+      break;
+    case 'drama':
+      item = await new Drama(link);
+      break;
   }
   item.setInfo();
-
   return item.getInfo();
 }
 
