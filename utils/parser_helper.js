@@ -4,7 +4,8 @@ const Parser = require('rss-parser');
 const parser = new Parser();
 
 /**
- * 
+ * Get rss data from rss rousource
+ * If NODE_ENV = test, rss resource is exampleRss file, or douban users Url
  * @async
  * @returns 
  */
