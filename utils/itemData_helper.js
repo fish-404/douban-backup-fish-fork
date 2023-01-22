@@ -25,7 +25,13 @@ function getIdByLink(link) {
   return link.match(/\d+/)[0];
 }
 
-async function fetchItem(link, category) {
+/**
+ * @async 
+ * @param {string} link - douban item link
+ * @returns 
+ */
+async function fetchItem(link) {
+  let category = getCategoryByLink(link);
   console.log(`Fetching ${category} item with link: ${link}`);
   let item;
 

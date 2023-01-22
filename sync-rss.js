@@ -94,7 +94,7 @@ async function handleFeed(feed, category) {
     const link = item.link;
     let itemData;
     try {
-      itemData = await itemData_helper.fetchItem(link, category);
+      itemData = await itemData_helper.fetchItem(link);
       itemData[DB_PROPERTIES.ITEM_LINK] = link;
       itemData[DB_PROPERTIES.RATING] = item.rating;
       itemData[DB_PROPERTIES.RATING_DATE] = dayjs(item.time).format('YYYY-MM-DD');
