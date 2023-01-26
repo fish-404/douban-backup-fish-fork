@@ -24,6 +24,13 @@ class Record
         this._title = recordData_helper.getTitle(dom);
     }
 
+    /**
+     * construction
+     */
+    getItemData() {
+        this.itemData = itemData_helper.fetchItem(link);
+    }
+
     getCategory() {
         return this._category;
     }
