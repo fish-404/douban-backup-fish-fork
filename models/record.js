@@ -27,8 +27,8 @@ class Record
     /**
      * construction
      */
-    getItemData() {
-        this.itemData = itemData_helper.fetchItem(link);
+    async getItemData() {
+        this.itemData = await itemData_helper.fetchItem(link);
     }
 
     getCategory() {
