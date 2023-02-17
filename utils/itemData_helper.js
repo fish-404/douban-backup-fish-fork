@@ -17,6 +17,25 @@ function getIdByLink(link) {
   return link.match(/\d+/)[0];
 }
 
+function getItemStatus(title) {
+  const done = /^(看过|听过|读过|玩过)/;
+  const doing = /^(在看|最近在听|最近在读|最近在玩)/;
+  const toDo = /^(想看|想听|想读|想玩)/;
+
+  let status;
+  if (done.test) {
+    status = "done";
+  }
+  else if (doing.test) {
+    status = "doing";
+  }
+  else if (toDo.test) {
+    status = "toDo";
+  }
+
+  return status;
+}
+
 /**
  * @async 
  * @param {string} link - douban item link
@@ -53,4 +72,5 @@ module.exports = {
   , getIdByLink
   , getNotionDbIdByCategory
   , fetchItem
+  , getItemStatus
 }

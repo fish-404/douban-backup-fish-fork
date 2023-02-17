@@ -13,6 +13,7 @@ class Record
         if (this._category === 'movie') {
             this._title = itemSource.title.slice(2) + ' ' + this._title;
         }
+        this._title = itemSource.title;
     }
 
     _setInfo(content) {
@@ -22,6 +23,7 @@ class Record
         this._comment = recordData_helper.getComment(contents);
         this._poster = recordData_helper.getPoster(dom);
         this._title = recordData_helper.getTitle(dom);
+        this._status = itemData_helper.getItemStatus(this._title);
     }
 
     /**

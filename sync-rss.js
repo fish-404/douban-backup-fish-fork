@@ -6,8 +6,6 @@ const notionDB_Controller = require('./controllers/notionDB');
 const parser_helper = require('./utils/parser_helper')
 const itemData_helper = require("./utils/itemData_helper");
 
-const done = /^(看过|听过|读过|玩过)/;
-
 const EMOJI = {
   movie: '🎞',
   music: '🎶',
@@ -29,7 +27,7 @@ const EMOJI = {
 
   let feedData = {};
 
-  feed = feed.items.filter(item => done.test(item.title)); // care for done status items only for now
+  feed = feed.items.filter(item => itemData_helper.getItemStatus(item.title) === "done"); // care for done status items only for now
   feed.forEach(item => {
     const record = new Record(item);
     const category = record.getCategory();
