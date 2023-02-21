@@ -1,11 +1,11 @@
 const assert = require('assert');
 const notionDB_helper = require('../utils/notionDb_helper');
-const {BOOK_DB_ID} = require('../utils/config')
+const {notionDbMap} = require('../utils/config')
 
 describe('notion db helper tests', () => {
     describe("get db properties",  () => {
         it ('shoud be equal', async () => {
-            const properties = await notionDB_helper.getNotionDbProperties(BOOK_DB_ID);
+            const properties = await notionDB_helper.getNotionDbProperties(notionDbMap.get('book'));
             const actual = [
                 '海报',     '出版日期',
                 '个人评分', '出版社',
