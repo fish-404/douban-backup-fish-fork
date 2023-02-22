@@ -23,13 +23,13 @@ function getItemStatus(title) {
   const toDo = /^(想看|想听|想读|想玩)/;
 
   let status;
-  if (done.test) {
+  if (title.match(done)) {
     status = "done";
   }
-  else if (doing.test) {
+  else if (title.match(doing)) {
     status = "doing";
   }
-  else if (toDo.test) {
+  else if (title.match(toDo)) {
     status = "toDo";
   }
 
