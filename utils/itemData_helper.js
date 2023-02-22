@@ -4,6 +4,8 @@ const { Book } = require('../models/item/book');
 const { Game } = require('../models/item/game');
 const { Drama } = require('../models/item/drama');
 const { Movie } = require("../models/item/movie");
+const {DB_PROPERTIES, PropertyType} = require("../util");
+const notionDb_helper = require('../utils/notionDb_helper');
 
 function getNotionDbIdByCategory(category) {
   return notionDbMap.get(category);
@@ -67,10 +69,87 @@ async function fetchItem(link) {
   return item.getInfo();
 }
 
+function getPropertyValue(value, type, key) {
+  let res = null;
+  switch (type) {
+    case 'title':
+      res = {
+        title: [
+          {
+            text: {
+              content: value,
+            },
+          },
+        ],
+      };
+      break;
+    case 'file':
+      res = {
+        files: [
+          {
+            // file: {}
+            name: value,
+            external: { // need external:{} format to insert the files property, but still not successful
+              url: value,
+            },
+          },
+        ],
+      };
+      break;
+    case 'date':
+      res = {
+        date: {
+          start: value,
+        },
+      };
+      break;
+    case 'multi_select':
+      res = key === DB_PROPERTIES.RATING ? {
+        'multi_select': value ? [
+          {
+            name: value.toString(),
+          },
+        ] : [],
+      } : {
+        'multi_select': (value || []).map(g => ({
+          name: g, // @Q: if the option is not created before, can not use it directly here?
+        })),
+      };
+      break;
+    case 'rich_text':
+      res = {
+        'rich_text': [
+          {
+            type: 'text',
+            text: {
+              content: value || '',
+            },
+          },
+        ],
+      }
+      break;
+    case 'number':
+      res = {
+        number: value ? Number(value) : null,
+      };
+      break;
+    case 'url':
+      res = {
+        url: value || url,
+      };
+      break;
+    default:
+      break;
+  }
+
+  return res;
+}
+
 module.exports = {
   getCategoryByLink
   , getIdByLink
   , getNotionDbIdByCategory
+  , getPropertyValue
   , fetchItem
   , getItemStatus
 }

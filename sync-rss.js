@@ -112,82 +112,6 @@ async function handleFeed(feed, category) {
   console.log('====================');
 }
 
-function getPropertyValye(value, type, key) {
-  let res = null;
-  switch (type) {
-    case 'title':
-      res = {
-        title: [
-          {
-            text: {
-              content: value,
-            },
-          },
-        ],
-      };
-      break;
-    case 'file':
-      res = {
-        files: [
-          {
-            // file: {}
-            name: value,
-            external: { // need external:{} format to insert the files property, but still not successful
-              url: value,
-            },
-          },
-        ],
-      };
-      break;
-    case 'date':
-      res = {
-        date: {
-          start: value,
-        },
-      };
-      break;
-    case 'multi_select':
-      res = key === DB_PROPERTIES.RATING ? {
-        'multi_select': value ? [
-          {
-            name: value.toString(),
-          },
-        ] : [],
-      } : {
-        'multi_select': (value || []).map(g => ({
-          name: g, // @Q: if the option is not created before, can not use it directly here?
-        })),
-      };
-      break;
-    case 'rich_text':
-      res = {
-        'rich_text': [
-          {
-            type: 'text',
-            text: {
-              content: value || '',
-            },
-          },
-        ],
-      }
-      break;
-    case 'number':
-      res = {
-        number: value ? Number(value) : null,
-      };
-      break;
-    case 'url':
-      res = {
-        url: value || url,
-      };
-      break;
-    default:
-      break;
-  }
-
-  return res;
-}
-
 async function addToNotion(itemData, category) {
   console.log('Going to insert ', itemData[DB_PROPERTIES.RATING_DATE], itemData[DB_PROPERTIES.TITLE]);
   try {
@@ -196,7 +120,7 @@ async function addToNotion(itemData, category) {
     const keys = Object.keys(DB_PROPERTIES);
     keys.forEach(key => {
       if (itemData[DB_PROPERTIES[key]]) {
-        properties[DB_PROPERTIES[key]] = getPropertyValye(itemData[DB_PROPERTIES[key]], PropertyType[key], DB_PROPERTIES[key]);
+        properties[DB_PROPERTIES[key]] = itemData_helper.getPropertyValue(itemData[DB_PROPERTIES[key]], PropertyType[key], DB_PROPERTIES[key]);
       }
     });
 
