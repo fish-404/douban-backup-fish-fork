@@ -16,4 +16,12 @@ describe("itemData_helper tests", () => {
             assert.equal("movie", category);
         })
     }) 
+
+    describe("get item status", () => {
+        const title = "最近在读赫尔曼·黑塞与托马斯·曼书信集";
+        const result = itemData_helper.getItemStatus(title);
+        it ("should be doing", function() {
+            assert.equal("doing", result);
+        })
+    })
 })
