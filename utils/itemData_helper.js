@@ -4,8 +4,7 @@ const { Book } = require('../models/item/book');
 const { Game } = require('../models/item/game');
 const { Drama } = require('../models/item/drama');
 const { Movie } = require("../models/item/movie");
-const {DB_PROPERTIES, PropertyType} = require("./util");
-const notionDb_helper = require('../utils/notionDb_helper');
+const {DB_PROPERTIES} = require("./util");
 
 const EMOJI = {
   movie: '🎞',
