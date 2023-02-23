@@ -6,14 +6,6 @@ const notionDB_Controller = require('./controllers/notionDB');
 const parser_helper = require('./utils/parser_helper')
 const itemData_helper = require("./utils/itemData_helper");
 
-const EMOJI = {
-  movie: '🎞',
-  music: '🎶',
-  book: '📖',
-  game: '🕹',
-  drama: '💃🏻',
-};
-
 (async () => {
   console.log('Refreshing feeds from RSS...');
   let feed;
@@ -139,17 +131,8 @@ async function addToNotion(itemData, category) {
       }
     });
 
-    const postData = {
-      parent: {
-        database_id: dbid,
-      },
-      icon: {
-        type: 'emoji',
-        emoji: EMOJI[category],
-      },
-      // fill in properties by the format: https://developers.notion.com/reference/page#page-property-value
-      properties,
-    };
+    let postData = itemData_helper.getNotionPostData(dbid, category, properties);
+
     if (properties[DB_PROPERTIES.POSTER]) {
       // use poster for the page cover
       postData.cover = {

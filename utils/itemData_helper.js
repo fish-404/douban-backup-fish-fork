@@ -7,6 +7,14 @@ const { Movie } = require("../models/item/movie");
 const {DB_PROPERTIES, PropertyType} = require("./util");
 const notionDb_helper = require('../utils/notionDb_helper');
 
+const EMOJI = {
+  movie: '🎞',
+  music: '🎶',
+  book: '📖',
+  game: '🕹',
+  drama: '💃🏻',
+};
+
 function getNotionDbIdByCategory(category) {
   return notionDbMap.get(category);
 }
@@ -145,6 +153,22 @@ function getPropertyValue(value, type, key) {
   return res;
 }
 
+function getNotionPostData(dbid, category, properties) {
+  let postData = {
+    parent: {
+      database_id: dbid,
+    },
+    icon: {
+      type: 'emoji',
+      emoji: EMOJI[category],
+    },
+    // fill in properties by the format: https://developers.notion.com/reference/page#page-property-value
+    properties,
+  };
+
+  return postData;
+}
+
 module.exports = {
   getCategoryByLink
   , getIdByLink
@@ -152,4 +176,5 @@ module.exports = {
   , getPropertyValue
   , fetchItem
   , getItemStatus
+  , getNotionPostData
 }
