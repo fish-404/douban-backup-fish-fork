@@ -1,5 +1,5 @@
 const config = require('../utils/config');
-const {DB_PROPERTIES} = require('../util');
+const {DB_PROPERTIES} = require('../utils/util');
 const notion = config.NOTION;
 
 async function queryNotionDbByFilters(databaseId, filters) {

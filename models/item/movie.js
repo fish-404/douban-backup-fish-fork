@@ -1,5 +1,5 @@
 const {Item} = require("../item")
-const {DB_PROPERTIES} = require("../../util");
+const {DB_PROPERTIES} = require("../../utils/util");
 
 class Movie extends Item 
 {

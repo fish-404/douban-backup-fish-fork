@@ -1,5 +1,5 @@
 const dbController = require('../controllers/notionDB');
-const {DB_PROPERTIES} = require('../util');
+const {DB_PROPERTIES} = require('./util');
 
 /**
  *

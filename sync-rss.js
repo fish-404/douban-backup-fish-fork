@@ -1,5 +1,5 @@
 const dayjs = require('dayjs');
-const {DB_PROPERTIES, PropertyType, sleep} = require('./util');
+const {DB_PROPERTIES, PropertyType, sleep} = require('./utils/util');
 const {Record} = require('./models/record');
 const notionDb_helper = require('./utils/notionDb_helper');
 const notionDB_Controller = require('./controllers/notionDB');
