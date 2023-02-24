@@ -1,4 +1,3 @@
-const dayjs = require('dayjs');
 const {DB_PROPERTIES, PropertyType, sleep} = require('./utils/util');
 const {Record} = require('./models/record');
 const notionDb_helper = require('./utils/notionDb_helper');
@@ -80,17 +79,9 @@ async function handleFeed(feed, category) {
   console.log(`There are total ${feed.length} new ${category} item(s) need to insert.`);
 
   for (let i = 0; i < feed.length; i++) {
-    const item = feed[i];
-    const link = item.link;
     let itemData;
     try {
-      itemData = await itemData_helper.fetchItem(link);
-      itemData[DB_PROPERTIES.ITEM_LINK] = link;
-      itemData[DB_PROPERTIES.RATING] = item.rating;
-      itemData[DB_PROPERTIES.RATING_DATE] = dayjs(item.time).format('YYYY-MM-DD');
-      itemData[DB_PROPERTIES.COMMENTS] = item.comment;
-      itemData[DB_PROPERTIES.POSTER] = item.poster;
-      itemData[DB_PROPERTIES.TITLE] = item.title;
+      itemData = await itemData_helper.getItemData(feed[i]);
     } catch (error) {
       console.error(link, error);
     }

@@ -1,3 +1,4 @@
+const dayjs = require('dayjs');
 const {notionDbMap, EMOJI} = require("../utils/config");
 const { Music } = require('../models/item/music');
 const { Book } = require('../models/item/book');
@@ -66,6 +67,24 @@ async function fetchItem(link) {
   }
   item.setInfo();
   return item.getInfo();
+}
+
+/**
+ * 
+ * @param {Object} item - item object from feed data (extract from parser) 
+ * @returns 
+ */
+async function getItemData(item) {
+  let itemData = await fetchItem(item.link);
+
+  itemData[DB_PROPERTIES.ITEM_LINK] = item.link;
+  itemData[DB_PROPERTIES.RATING] = item.rating;
+  itemData[DB_PROPERTIES.RATING_DATE] = dayjs(item.time).format('YYYY-MM-DD');
+  itemData[DB_PROPERTIES.COMMENTS] = item.comment;
+  itemData[DB_PROPERTIES.POSTER] = item.poster;
+  itemData[DB_PROPERTIES.TITLE] = item.title;
+
+  return itemData;
 }
 
 function getPropertyValue(value, type, key) {
@@ -168,4 +187,5 @@ module.exports = {
   , fetchItem
   , getItemStatus
   , getNotionPostData
+  , getItemData
 }
