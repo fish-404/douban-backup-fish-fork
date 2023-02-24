@@ -1,18 +1,10 @@
-const {notionDbMap} = require("../utils/config");
+const {notionDbMap, EMOJI} = require("../utils/config");
 const { Music } = require('../models/item/music');
 const { Book } = require('../models/item/book');
 const { Game } = require('../models/item/game');
 const { Drama } = require('../models/item/drama');
 const { Movie } = require("../models/item/movie");
 const {DB_PROPERTIES} = require("./util");
-
-const EMOJI = {
-  movie: '🎞',
-  music: '🎶',
-  book: '📖',
-  game: '🕹',
-  drama: '💃🏻',
-};
 
 function getNotionDbIdByCategory(category) {
   return notionDbMap.get(category);

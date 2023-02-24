@@ -16,9 +16,19 @@ const notionDbMap = new Map([
 
 const doubanUserUrl = `https://www.douban.com/feed/people/${process.env.DOUBAN_USER_ID}/interests`;
 
+const EMOJI = {
+  movie: '🎞',
+  music: '🎶',
+  book: '📖',
+  game: '🕹',
+  drama: '💃🏻',
+};
+
+
 module.exports = {
     NOTION
     , notionDbMap
     , doubanUserUrl
     , exampleRssFilePath
+    , EMOJI
 }
