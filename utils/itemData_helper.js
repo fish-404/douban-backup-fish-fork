@@ -82,7 +82,10 @@ async function getItemData(item) {
   itemData[DB_PROPERTIES.RATING_DATE] = dayjs(item.time).format('YYYY-MM-DD');
   itemData[DB_PROPERTIES.COMMENTS] = item.comment;
   itemData[DB_PROPERTIES.POSTER] = item.poster;
-  itemData[DB_PROPERTIES.TITLE] = item.title;
+  // @TODO: should be modified 
+  // if get title from feed data, should ref status
+  // if get title from page data, should considerate [movie] special case
+  itemData[DB_PROPERTIES.TITLE] = item.title.slice(2); 
 
   return itemData;
 }
