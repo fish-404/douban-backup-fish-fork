@@ -165,4 +165,8 @@
   Notion 相当于一个存储用户需要的信息数据库，相当于关联了 Item 和 Record 的 View。
 
   以关系型数据库的结构来看，相当于一个 Record 表和一个 Item 表通过 Item id 关联构成用户记录 View。
+
+  # 声明
+
+  example.rss 中的数据为本人曾用账号（昵称：在逃的貓, fish-404），现已注销，但 Rss 源疑似仍可用，如其他人后来使用了该域名，与本人无关。
 </detials>
