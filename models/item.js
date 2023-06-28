@@ -1,4 +1,3 @@
-const got = require("got");
 const {JSDOM} = require("jsdom");
 
 class Item 
@@ -6,8 +5,7 @@ class Item
     constructor(link) {
         this._link = link;
         return (async () => {
-            const response = await got(this._link);
-            this._dom = new JSDOM(response.body);
+            this._dom = await JSDOM.fromURL(this._link);
 
             return this;
         })();
